@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Grab the Fish</title>
+        <meta charset="utf-8">
+        <link rel="icon" href="grab_the_fish.png" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/6a55ad4003.js" crossorigin="anonymous"></script>
+
+        <style>
+        	* {
+                box-sizing: border-box;
+                margin: 0;
+                font-family: sans-serif;
+            }
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #a4d02d;
+            }
+            #main {
+            	display: flex;
+            	width: 60%;
+            	height: 100%;
+            	background-color: #c8e126;
+            }
+            #main #score1 {
+            	position: absolute;
+            	top: 10vh;
+            	left: 25vw;
+            	width: 5vw;
+            	height: 5vw;
+            	display: flex;
+            	justify-content: center;
+            	align-items: center;
+            	font-size: 3vw;
+            	font-weight: bold;
+            	color: white;
+            	border-radius: 20px;
+            	background-color: black;
+            }
+            #main #score2 {
+            	position: absolute;
+            	top: 10vh;
+            	right: 25vw;
+            	width: 5vw;
+            	height: 5vw;
+            	display: flex;
+            	justify-content: center;
+            	align-items: center;
+            	font-size: 3vw;
+            	font-weight: bold;
+            	color: white;
+            	border-radius: 20px;
+            	background-color: #d67500;
+            }
+            #main #plate {
+            	position: absolute;
+            	top: calc(50vh - 7.5vw);
+            	left: calc(50vw - 7.5vw);
+            	width: 15vw;
+            	height: 15vw;
+            }
+            #main #fish {
+            	display: none;
+            	position: absolute;
+            	top: calc(50vh - 6vw);
+            	left: calc(50vw - 5vw);
+            	width: 10vw;
+            	height: 10vw;
+            	z-index: 1;
+            	transform: rotate(15deg);
+            }
+            #main #cat1 {
+            	position: absolute;
+            	top: calc(50vh - 6vw);
+            	left: 20vw;
+            	width: 12vw;
+            	height: 12vw;
+            	transform: rotate(90deg);
+            	z-index: 2;
+            }
+            #main #cat1div {
+            	position: absolute;
+            	top: calc(50vh - 4vw - 1px);
+            	left: 20vw;
+            	width: 0vw;
+            	height: 8vw;
+            	background-color: black;
+            }
+            #main #cat2 {
+            	position: absolute;
+            	top: calc(50vh - 6vw);
+            	right: 20vw;
+            	width: 12vw;
+            	height: 12vw;
+            	transform: rotate(-90deg);
+            	z-index: 2;
+            }
+            #main #cat2div {
+            	position: absolute;
+            	top: calc(50vh - 4vw);
+            	right: 20vw;
+            	width: 0vw;
+            	height: 8vw;
+            	background-color: #d67500;
+            }
+		</style>
+    </head>
+
+    <body onkeydown="keypress(event)" onkeyup="keyrelease(event)">
+        <div id="main">
+        	<span id="score1">0</span>
+        	<span id="score2">0</span>
+        	<div id="cat1div"></div>
+        	<img id="cat1" src="images/cat1.png">
+        	<img id="fish" src="">
+        	<img id="plate" src="images/plate.png">
+        	<img id="cat2" src="images/cat2.png">
+        	<div id="cat2div"></div>
+        </div>
+
+	<script>
+		var QkeyPress = 0;
+		var PkeyPress = 0;
+		var execute1 = 0;
+		var execute2 = 0;
+		var player1 = 0;
+		var player2 = 0;
+
+		(function loop() {
+		    var randTime = Math.floor(Math.random() * 2500 + 1500);
+		    var randFish = Math.floor(Math.random() * 2);
+
+		    setTimeout(function() {
+	   			document.getElementById('fish').style.display = "flex";
+
+				if(randFish == 0) document.getElementById('fish').src = "images/fish.png";
+				else if(randFish == 1) document.getElementById('fish').src = "images/fishbone.png";
+
+				setTimeout(function() {
+					document.getElementById('fish').style.display = "none";
+				}, 800)
+
+	            loop();  
+		    }, randTime);
+		}());
+
+		function keypress(event) {
+			if (event.keyCode == 81) {
+				QkeyPress +=1;
+				let date = new Date();
+				let miliseconds = date.getTime();
+				if((miliseconds - execute1) > 500 && QkeyPress == 1) {
+					execute1 = miliseconds;
+					document.getElementById('cat1div').style.width = "30vw";
+					document.getElementById('cat1').style.left = "40vw";
+
+					if (document.getElementById('fish').style.display == "flex" &&
+						document.getElementById('fish').getAttribute('src') == "images/fish.png") 
+					{
+						player1 += 1;
+						document.getElementById('fish').src = "";
+						document.getElementById('fish').style.display = "none";
+						document.getElementById('score1').innerHTML = player1;
+						if(player1 == 3) {
+							setTimeout(function() {
+								alert("Player1 Wins");
+								document.location.reload();
+							}, 200);
+						}
+					}
+					else if (document.getElementById('fish').style.display == "flex" &&
+						document.getElementById('fish').getAttribute('src') == "images/fishbone.png") 
+					{
+						player1 -= 2;
+						document.getElementById('fish').src = "";
+						document.getElementById('fish').style.display = "none";
+						document.getElementById('score1').innerHTML = player1;
+					}
+				}
+				else {
+					document.getElementById('cat1div').style.width = "0vw";
+					document.getElementById('cat1').style.left = "20vw";
+				}
+			}
+
+			if(event.keyCode == 80) {
+				PkeyPress += 1;
+				let date = new Date();
+				let miliseconds = date.getTime();
+				if((miliseconds - execute2) > 500 && PkeyPress == 1) {
+					execute2 = miliseconds;
+					document.getElementById('cat2div').style.width = "30vw";
+					document.getElementById('cat2').style.right = "40vw";
+
+					if (document.getElementById('fish').style.display == "flex" &&
+						document.getElementById('fish').getAttribute('src') == "images/fish.png") 
+					{
+						player2 += 1;
+						document.getElementById('fish').src = "";
+						document.getElementById('fish').style.display = "none";
+						document.getElementById('score2').innerHTML = player2;
+						if(player2 == 3) {
+							setTimeout(function() {
+								alert("Player2 Wins");
+								document.location.reload();
+							}, 200);
+						}
+					}
+					else if (document.getElementById('fish').style.display == "flex" &&
+						document.getElementById('fish').getAttribute('src') == "images/fishbone.png") 
+					{
+						player2 -= 2;
+						document.getElementById('fish').src = "";
+						document.getElementById('fish').style.display = "none";
+						document.getElementById('score2').innerHTML = player2;
+					}
+				}
+				else {
+					document.getElementById('cat2div').style.width = "0vw";
+					document.getElementById('cat2').style.right = "20vw";
+				}
+			}
+		}
+
+
+		function keyrelease(event) {
+			if (event.keyCode == 81) {
+				QkeyPress = 0;
+				document.getElementById('cat1div').style.width = "0vw";
+				document.getElementById('cat1').style.left = "20vw";
+			}
+			if(event.keyCode == 80) {
+				PkeyPress = 0;
+				document.getElementById('cat2div').style.width = "0vw";
+				document.getElementById('cat2').style.right = "20vw";
+			}
+		}
+	</script>
+</body>
+</html>

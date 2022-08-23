@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Time Challenge</title>
+        <link rel="icon" href="time_challenge.png" type="image/jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@669&display=swap" rel="stylesheet">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                font-family: 'Rampart One', cursive;
+            }
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #9977cc;
+            }
+            #intro {
+                width: 50%;
+                height: 80vh;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                flex-flow: column nowrap;
+                border-radius: 60% 400px 40% 50%;
+                background-color: #fff8ea;
+            }
+            #intro p {
+                font-size: 5vw;
+                font-weight: bold;
+                letter-spacing: 0px;
+            }
+            #intro #icon {
+                position: absolute;
+                top: 21vh;
+                right: 35vw;
+                width: 12vw;
+                height: 6.5vw;
+                text-align: center;
+                overflow: hidden;
+            }
+            #intro #icon i {
+                font-size: 8vw;
+                color: #cc2255;
+                transform: rotate(30deg);
+            }
+            #intro button {
+                width: 25%;
+                height: 15vh;
+                font-size: 2.5vw;
+                color: white;
+                border: 0;
+                border-radius: 80px 60% 50% 40%;
+                background-color: #5577cc;
+            }
+            #main{
+                width: 100%;
+                height: 100%;
+                display: none;
+                justify-content: space-evenly;
+                align-items: center;
+                flex-flow: row nowrap;
+            }
+            #main #player1, #main #player2 {
+                position: relative;
+                width: 25vw;
+                height: 35vh;
+            }
+            #main #player1 #base, #main #player2 #base {
+                position: absolute;
+                bottom: 0;
+                left: 5vw;
+                width: 15vw;
+                height: 3vh;
+                border-radius: 5px;
+                background-color: #72206d;
+            }
+            #main #player1 #timer1, #main #player2 #timer2 {
+                position: absolute;
+                bottom: 3vh;
+                left: 3vw;
+                width: 19vw;
+                height: 25vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 30px;
+                border-top: 35px solid #a14a97;
+                border-bottom: 35px solid #a14a97;
+                border-left: 10px solid #a14a97;
+                border-right: 10px solid #a14a97;
+                background-color: #41515a;
+            }
+            #main #player1 #timer1 p, #main #player2 #timer2 p {
+                font-size: 3vw;
+                color: white;
+                font-family: 'Orbitron', sans-serif;
+                animation-delay: 2s;
+                animation-duration: 2s;
+                animation-fill-mode: forwards;
+            }
+            @keyframes anim1 {
+                from {
+                    opacity: 1;
+                }
+                to {
+                    opacity: 0;
+                }
+            }
+            #main #player1 #btnbase, #main #player2 #btnbase {
+                position: absolute;
+                bottom: 28vh;
+                left: 7vw;
+                width: 11vw;
+                height: 1vh;
+                border-radius: 10px;
+                background-color: #583d42;
+            }
+            #main #player1 #pressbtn1, #main #player2 #pressbtn2 {
+                position: absolute;
+                bottom: 29vh;
+                left: 8vw;
+                width: 9vw;
+                height: 4vh;
+                border-radius: 20px 20px 0 0;
+                background-color: #ff0401;
+            }
+            #main #player2 #pressbtn2 {
+                background-color: #1b50fe;
+            }
+            #main #time {
+                width: 20vw;
+                text-align: center;
+                font-size: 5vw;
+                color: white;
+                text-shadow: 0 0 15px black;
+                font-family: 'Orbitron', sans-serif;
+            }
+            #Akey {
+                position: absolute;
+                bottom: 10vh;
+                left: 18vw;
+                font-size: 3vw;
+                font-weight: bold;
+            }
+            #Lkey {
+                position: absolute;
+                bottom: 10vh;
+                right: 18vw;
+                font-size: 3vw;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body onkeydown="keyboard(event)">
+        <div id="intro">
+            <p>Time<br>Challenge</p>
+            <div id="icon"><i class="fas fa-stopwatch"></i></div>
+            <button onclick="start()">Start</button>
+        </div>
+        <div id="main">
+            <div id="player1">
+                <div id="pressbtn1"></div>
+                <div id="btnbase"></div>
+                <div id="timer1"><p>00:00</p></div>
+                <div id="base"></div>
+            </div>
+            <div id="time">00:00</div>
+            <div id="player2">
+                <div id="pressbtn2"></div>
+                <div id="btnbase"></div>
+                <div id="timer2"><p>00:00</p></div>
+                <div id="base"></div>
+            </div>
+            <span id="Akey">A</span>
+            <span id="Lkey">L</span>
+        </div>
+    <script>
+        var player1timer = 0;
+        var player2timer = 0;
+
+        var AkeyPressed = false;
+        var LkeyPressed = false;
+
+        var t1;
+        var t2;
+
+        var time = Math.floor(Math.random() * 1501 + 1000);
+
+        var minutes = Math.floor(time / 100);
+        var seconds = Math.floor(time % 100);
+
+        if(seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        document.getElementById('time').innerHTML = minutes + ":" + seconds;
+
+        function keyboard(event) {
+            if (event.keyCode == 65) {
+                clearInterval(t1);
+                AkeyPressed = true;
+                document.getElementById('pressbtn1').style.height = "1.5vh";
+            }
+            if (event.keyCode == 76) {
+                clearInterval(t2);
+                LkeyPressed = true;
+                document.getElementById('pressbtn2').style.height = "1.5vh";
+            }
+
+            if(AkeyPressed && LkeyPressed) {
+                let opct = 0;
+                document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+
+                document.getElementById('timer1').getElementsByTagName('p')[0].style.animationName = "";
+                document.getElementById('timer2').getElementsByTagName('p')[0].style.animationName = "";
+
+                setTimeout(function() {
+                    let res1 = Math.abs(time - player1timer);
+                    let res2 = Math.abs(time - player2timer);
+
+                    if(res1 < res2) {
+                        alert("Player1 Wins");
+                        document.location.reload();
+                    }
+                    else if(res1 > res2) {
+                        alert("Player2 Wins");
+                        document.location.reload();
+                    }
+                    else {
+                        alert("It's a Draw");
+                        document.location.reload();
+                    }
+                    
+                }, 2100);
+
+                setInterval(function() {
+                    opct += 0.01;
+                    document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                    document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+                }, 20);
+            }
+        }
+
+        function timer1() {
+            document.getElementById('timer1').getElementsByTagName('p')[0].style.animationName = "anim1";
+            t1 = setInterval(function() {
+                player1timer++;
+                let minutes1 = Math.floor(player1timer / 100);
+                let seconds1 = Math.floor(player1timer % 100);
+
+                if(minutes1 < 10) {
+                    minutes1 = "0" + minutes1;
+                }
+                if(seconds1 < 10) {
+                    seconds1 = "0" + seconds1;
+                }
+                document.getElementById('timer1').getElementsByTagName('p')[0].innerHTML = 
+                minutes1 + ":" + seconds1;
+
+                if (player1timer == 3000) {
+                    clearInterval(t1);
+
+                    let opct = 0;
+                    document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                    document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+
+                    document.getElementById('timer1').getElementsByTagName('p')[0].style.animationName = "";
+                    document.getElementById('timer2').getElementsByTagName('p')[0].style.animationName = "";
+
+                    setTimeout(function() {
+                        let res1 = Math.abs(time - player1timer);
+                        let res2 = Math.abs(time - player2timer);
+
+                        if(res1 < res2) {
+                            alert("Player1 Wins");
+                            document.location.reload();
+                        }
+                        else if(res1 > res2) {
+                            alert("Player2 Wins");
+                            document.location.reload();
+                        }
+                        else {
+                            alert("It's a Draw");
+                            document.location.reload();
+                        }        
+                    }, 2100);
+
+                    setInterval(function() {
+                        opct += 0.01;
+                        document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                        document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+                    }, 20);
+                }
+            }, 10);
+        }
+
+        function timer2() {
+            document.getElementById('timer2').getElementsByTagName('p')[0].style.animationName = "anim1";
+            t2 = setInterval(function() {
+                player2timer++;
+                let minutes2 = Math.floor(player2timer / 100);
+                let seconds2 = Math.floor(player2timer % 100);
+
+                if(minutes2 < 10) {
+                    minutes2 = "0" + minutes2;
+                }
+                if(seconds2 < 10) {
+                    seconds2 = "0" + seconds2;
+                }
+                document.getElementById('timer2').getElementsByTagName('p')[0].innerHTML = 
+                minutes2 + ":" + seconds2;
+
+                if (player2timer == 3000) {
+                    clearInterval(t2);
+
+                    let opct = 0;
+                    document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                    document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+
+                    document.getElementById('timer1').getElementsByTagName('p')[0].style.animationName = "";
+                    document.getElementById('timer2').getElementsByTagName('p')[0].style.animationName = "";
+
+                    setTimeout(function() {
+                        let res1 = Math.abs(time - player1timer);
+                        let res2 = Math.abs(time - player2timer);
+
+                        if(res1 < res2) {
+                            alert("Player1 Wins");
+                            document.location.reload();
+                        }
+                        else if(res1 > res2) {
+                            alert("Player2 Wins");
+                            document.location.reload();
+                        }
+                        else {
+                            alert("It's a Draw");
+                            document.location.reload();
+                        }        
+                    }, 2100);
+
+                    setInterval(function() {
+                        opct += 0.01;
+                        document.getElementById('timer1').getElementsByTagName('p')[0].style.opacity = opct;
+                        document.getElementById('timer2').getElementsByTagName('p')[0].style.opacity = opct;
+                    }, 20);
+                }
+            }, 10);
+        }
+
+        function start() {
+            document.getElementById('intro').style.display = "none";
+            document.getElementById('main').style.display = "flex";
+            setTimeout(function() {
+                timer1();
+                timer2();
+            }, 2000);  
+        }
+    </script>
+</body>
+</html>

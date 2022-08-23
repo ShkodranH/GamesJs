@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Build the Tower</title>
+        <link rel="icon" href="build_the_tower.png" type="image/jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+        <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                font-family: 'Righteous', cursive;
+                user-select: none;
+            }
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #intro {
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                background-image: url('images/background.png');
+                background-size: cover;
+            }
+            #intro div {
+            	width: 100vw;
+            	height: 100vh;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                flex-flow: column nowrap;
+            	backdrop-filter: blur(5px);
+            	background-color: rgba(99, 153, 237, 0.3);
+            }
+            #intro p {
+            	font-size: 6vw;
+            	color: #dcc9b0;
+            	letter-spacing: 5px;
+            	text-shadow: 2px 2px 2px black,
+            	-2px -2px 2px black,
+            	2px -2px 2px black,
+            	-2px 2px 2px black,
+            	4px 4px 2px white,
+            	-4px -4px 2px white,
+            	4px -4px 2px white,
+            	-4px 4px 2px white;
+            }
+            #intro button {
+            	width: 20vw;
+            	height: 10vh;
+                font-size: 2.5vw;
+                letter-spacing: 3px;
+            	text-shadow: 1px 1px 1px black,
+            	-1px -1px 1px black,
+            	1px -1px 1px black,
+            	-1px 1px 1px black;
+                color: white;
+                background-color: #da8e57;
+                border-top: 10px solid #f8e3cf;
+                border-bottom: 10px solid #f8e3cf;
+                border-left: 10px solid #6c4c39;
+                border-right: 10px solid #6c4c39;
+            }
+            #main {
+            	width: 180vmin;
+            	height: 90vmin;
+            	display: none;
+            	overflow-x: hidden;
+                overflow-y: auto;
+            }
+            #bg {
+            	position: relative;
+            	width: 180vmin;
+            	height: 90vmin;
+            	background-color: #6399ed;
+            }
+            #transparent {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 99990;
+            }
+            #win {
+                display: none;
+                position: fixed;
+                top: 30vmin;
+                left: 40vmin;
+                width: 60vmin;
+                height: 15vmin;
+                font-size: 5vmin;
+                text-align: center;
+                color: #dcc9b0;
+                letter-spacing: 2px;
+                text-shadow: 1px 1px 1px black,
+                -1px -1px 1px black,
+                1px -1px 1px black,
+                -1px 1px 1px black,
+                2px 2px 1px white,
+                -2px -2px 1px white,
+                2px -2px 1px white,
+                -2px 2px 1px white;
+                z-index: 99999;
+            }
+            #win button {
+                width: 20vmin;
+                height: 5vmin;
+                font-size: 3vmin;
+                background-color: #da8e57;
+                color: white;
+                border-top: 3px solid #f8e3cf;
+                border-bottom: 3px solid #f8e3cf;
+                border-left: 2px solid #6c4c39;
+                border-right: 2px solid #6c4c39;
+            }
+            ::-webkit-scrollbar {
+                width: 0;
+            }
+            #land {
+            	position: absolute;
+            	bottom: 0;
+            	left: 0;
+            	width: 180vmin;
+            	height: 22vmin;
+            	background-color: #77c745;
+            }
+            #market {
+            	position: fixed;
+            	top: 8vmin;
+            	left: 41vmin;
+            	width: 20vmin;
+            	height: 7vmin;
+            	background-color: #da8e57;
+            	border: 3px solid #6c4c39;
+            	display: flex;
+            	justify-content: center;
+            	align-items: center;
+            	font-size: 3vmin;
+            	color: white;
+            }
+            #coins {
+            	position: fixed;
+            	top: 8vmin;
+            	left: 18vmin;
+            	width: 20vmin;
+            	height: 7vmin;
+            	background-color: #da8e57;
+            	border: 3px solid #6c4c39;
+            	display: flex;
+            	justify-content: flex-end;
+            	align-items: center;
+            	padding-right: 1vmin;
+            	font-size: 3vmin;
+            	color: white;
+            }
+            #coins img {
+            	width: 4vmin;
+            	height: 4vmin;
+            	position: absolute;
+            	left: 1vmin;
+            }
+            #market2 {
+            	display: none;
+            	position: fixed;
+            	top: 17vmin;
+            	left: 18vmin;
+            	width: 46vmin;
+            	height: 30vmin;
+            	padding-left: 1vmin;
+            	z-index: 9999;
+            	background-color: rgba(100, 100, 100, 0.7);
+            }
+            #close {
+            	width: 43vmin;
+            	height: 7vmin;
+            	text-align: right;
+            	display: flex;
+            	justify-content: flex-end;
+            	align-items: flex-end;
+            }
+            #close span {
+            	width: 5vmin;
+            	height: 5vmin;
+            	color: white;
+            	background-color: #da8e57;
+            	border: 3px solid #6c4c39;
+            	font-size: 3vmin;
+            	display: flex;
+            	justify-content: center;
+            	align-items: center;
+            }
+            #market2 #total1, #market2 #total2 {
+            	background-color: #da8e57;
+            	border: 3px solid #6c4c39;
+            	width: 12vmin;
+            	font-size: 2.5vmin;
+            }
+            #market2 #percent {
+            	background-color: #da8e57;
+            	border: 3px solid #6c4c39;
+            	font-size: 2.5vmin;
+            }
+            #market2 td {
+            	width: 10vmin;
+            	height: 7vmin;
+            	text-align: right;
+            	padding-right: 1vmin;
+            	color: white;
+            	font-size: 2vmin;
+            }
+            #market2 tr:nth-child(1) td {
+            	padding-right: 0;
+            }
+            #market2 td:nth-child(1) {
+            	text-align: center;
+            }
+            #market2 #total {
+            	padding-right: 1vmin;
+            }
+            #market2 img {
+            	width: 5vmin;
+            }
+            #levelup {
+                position: absolute;
+                bottom: 40vmin;
+                left: 30vmin;
+                width: 6vmin;
+                height: 6vmin;
+                font-size: 4.5vmin;
+                color: white;
+                text-align: center;
+                background-color: #707070;
+                border: 2px solid #4c4c49;
+            }
+            #levelup2 {
+                position: absolute;
+                bottom: 27vmin;
+                left: 50vmin;
+                width: 6vmin;
+                height: 6vmin;
+                font-size: 4.5vmin;
+                color: white;
+                text-align: center;
+                background-color: #707070;
+                border: 2px solid #4c4c49;
+            }
+            #levelup3 {
+                position: absolute;
+                bottom: 20vmin;
+                left: 77vmin;
+                width: 6vmin;
+                height: 6vmin;
+                font-size: 4.5vmin;
+                color: white;
+                text-align: center;
+                background-color: #707070;
+                border: 2px solid #4c4c49;
+            }
+            #stone, #minerDiv {
+            	position: absolute;
+            	bottom: 18vmin;
+            	left: 5vmin;
+            	width: 35vmin;
+            	height: 25vmin;
+            }
+            #stoneLv, #transportLv, #brickLv {
+                display: none;
+                position: absolute;
+                bottom: 37vmin;
+                left: 52vmin;
+                width: 40vmin;
+                height: 30vmin;
+                color: white;
+                font-size: 2.5vmin;
+                background-color: red;
+                background-color: rgba(100, 100, 100, 0.7);
+            }
+            #closeStone, #closeTransport, #closeBrick {
+                width: 5vmin;
+                height: 5vmin;
+                background-color: #da8e57;
+                border: 3px solid #6c4c39;
+                margin: 1vmin 1vmin 1vmin 34vmin;
+                font-size: 3vmin;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #stoneLevel, #transportLevel, #brickLevel {
+                text-align: center;
+                margin: -5vmin 0 2vmin -2vmin;
+            }
+            #stoneMiners, #stoneTap, #stonePrice,
+            #transportCapacity, #transportPrice, #transportAmount,
+            #brickTime, #brickNumber, #brickPrice {
+                padding: 1vmin 0 0 2vmin;
+            }
+            #stoneLv button, #transportLv button, #brickLv button {
+                width: 15vmin;
+                height: 5vmin;
+                font-size: 2.5vmin;
+                color: white;
+                background-color: #606060;
+                border: 3px solid #4c4c39;
+                margin: 3vmin 0 0 12.5vmin;
+            }
+            #stonePile, #transporterDiv {
+            	position: absolute;
+            	bottom: 18vmin;
+            	left: 40vmin;
+            	width: 12vmin;
+            	height: 9vmin;
+            }
+            #stoneCollect {
+            	position: absolute;
+            	bottom: 18vmin;
+            	left: 40vmin;
+            	width: 12vmin;
+            	height: 3vmin;
+            	text-align: center;
+            	color: white;
+            	font-size: 2.5vmin;
+            	background-image: url('images/collect.png');
+            	background-size: cover;
+            }
+            #transporter {
+                opacity: 0;
+                position: absolute;
+                bottom: 17vmin;
+                left: 45vmin;
+                width: 10vmin;
+            }
+            #transporter2 {
+                opacity: 0;
+                position: absolute;
+                bottom: 6vmin;
+                left: 60vmin;
+                width: 10vmin;
+            }
+            #miner {
+                opacity: 0;
+                position: absolute;
+                bottom: 25vmin;
+                left: 6vmin;
+                height: 10vmin;
+            }
+            #axe {
+                opacity: 0;
+                position: absolute;
+                bottom: 22vmin;
+                left: 4.5vmin;
+                height: 15vmin;
+                transform: rotate(0deg);
+            }
+            #stonePile2 {
+            	position: absolute;
+            	bottom: 5vmin;
+            	left: 60vmin;
+            	width: 12vmin;
+            	height: 9vmin;
+            }
+            #stoneCollect2 {
+            	position: absolute;
+            	bottom: 5vmin;
+            	left: 60vmin;
+            	width: 12vmin;
+            	height: 3vmin;
+            	text-align: center;
+            	color: white;
+            	font-size: 2.5vmin;
+            	background-image: url('images/collect.png');
+            	background-size: cover;
+            }
+            #stoneCutter {
+            	position: absolute;
+            	bottom: 5vmin;
+            	left: 73vmin;
+            	width: 15vmin;
+            	height: 12vmin;
+            }
+            #progress {
+                position: absolute;
+                bottom: 2vmin;
+                left: 74vmin;
+                width: 0;
+                height: 1.5vmin;
+                background-color: purple;
+            }
+            #brickPile {
+            	position: absolute;
+            	bottom: 8vmin;
+            	left: 91vmin;
+            	width: 10vmin;
+            	height: 5vmin;
+            }
+            #brickCollect {
+            	position: absolute;
+            	bottom: 5vmin;
+            	left: 90vmin;
+            	width: 12vmin;
+            	height: 3vmin;
+            	text-align: center;
+            	color: white;
+            	font-size: 2.5vmin;
+            	background-image: url('images/collect.png');
+            	background-size: cover;
+            }
+            #base {
+            	position: absolute;
+            	bottom: 21vmin;
+            	left: 95vmin;
+            	width: 47vmin;
+            	height: 2vmin;
+            	background-color: #6f6f6f;
+            }
+            #final {
+                display: none;
+                position: absolute;
+                bottom: 185vmin;
+                left: 94vmin;
+                width: 49vmin;
+                z-index: 9999;
+            }
+            #anim1 {
+                width: 6vmin;
+                position: absolute;
+                bottom: 25vmin;
+                left: 20vmin;
+            }
+            #anim2 {
+                width: 6vmin;
+                position: absolute;
+                bottom: 18vmin;
+                left: 43vmin;
+            }
+            #anim3 {
+                width: 6vmin;
+                position: absolute;
+                bottom: 5vmin;
+                left: 63vmin;
+            }
+            #anim4 {
+                width: 6vmin;
+                position: absolute;
+                bottom: 5vmin;
+                left: 77vmin;
+            }
+            #anim6 {
+                width: 6vmin;
+                position: absolute;
+                bottom: 6vmin;
+                left: 93vmin;
+            }
+            .class1 {
+                animation-name: anim1;
+                animation-duration: 0.3s;
+                animation-timing-function: linear;
+            }
+            .class2 {
+                animation-name: anim2;
+                animation-duration: 0.3s;
+                animation-timing-function: linear;
+            }
+            .class3 {
+                animation-name: anim3;
+                animation-duration: 0.3s;
+                animation-timing-function: linear;
+            }
+            .class4 {
+                animation-name: anim4;
+                animation-duration: 0.3s;
+                animation-timing-function: linear;
+            }
+            .class5 {
+                animation-name: anim5;
+                animation-timing-function: linear;
+            }
+            .class6 {
+                animation-name: anim6;
+                animation-duration: 0.3s;
+                animation-timing-function: linear;
+            }
+            .class7 {
+                animation-name: anim7;
+                animation-duration: 1s;
+                animation-timing-function: linear;
+            }
+            .class8 {
+                animation-name: anim8;
+                animation-duration: 1s;
+                animation-delay: 1.2s;
+                animation-timing-function: linear;
+            }
+            .class9 {
+                animation-name: anim9;
+                animation-duration: 0.25s;
+                animation-iteration-count: infinite;
+                animation-direction: alternate;
+                animation-timing-function: ease-in-out;
+            }
+
+            @keyframes anim1 {
+                0% {
+                    bottom: 25vmin;
+                    left: 20vmin;
+                }
+                45% {
+                    bottom: 33vmin;
+                    left: 32vmin;
+                }
+                55% {
+                    bottom: 33vmin;
+                    left: 35vmin;
+                }
+                100% {
+                    bottom: 18vmin;
+                    left: 43vmin;
+                }
+            }
+            @keyframes anim2 {
+                0% {
+                    bottom: 18vmin;
+                    left: 43vmin;
+                }
+                40% {
+                    bottom: 22vmin;
+                    left: 50vmin;
+                }
+                100% {
+                    bottom: 5vmin;
+                    left: 63vmin;
+                }
+            }
+            @keyframes anim3 {
+                0% {
+                    bottom: 5vmin;
+                    left: 63vmin;
+                }
+                50% {
+                    bottom: 10vmin;
+                    left: 70vmin;
+                }
+                100% {
+                    bottom: 6vmin;
+                    left: 77vmin;
+                }
+            }
+            @keyframes anim4 {
+                0% {
+                    bottom: 6vmin;
+                    left: 77vmin;
+                }
+                50% {
+                    bottom: 11vmin;
+                    left: 85vmin;
+                }
+                100% {
+                    bottom: 6vmin;
+                    left: 93vmin;
+                }
+            }
+            @keyframes anim5 {
+                0% {
+                    width: 0;
+                }
+                100% {
+                    width: 13vmin;
+                }
+            }
+            @keyframes anim6 {
+                0% {
+                    bottom: 6vmin;
+                    left: 93vmin;
+                }
+                100% {
+                    bottom: 23vmin;
+                    left: 113vmin;
+                }
+            }
+            @keyframes anim7 {
+                0% {
+                    opacity: 0;
+                    bottom: 17vmin;
+                    left: 45vmin;
+                }
+                10% {
+                    opacity: 1;
+                    bottom: 17vmin;
+                    left: 45vmin;
+                }
+                90% {
+                    opacity: 1;
+                    bottom: 6vmin;
+                    left: 60vmin;
+                }
+                100% {
+                    opacity: 0;
+                    bottom: 6vmin;
+                    left: 60vmin;
+                }
+            }
+            @keyframes anim8 {
+                0% {
+                    opacity: 0;
+                    bottom: 6vmin;
+                    left: 60vmin;
+                }
+                10% {
+                    opacity: 1;
+                    bottom: 6vmin;
+                    left: 60vmin;
+                }
+                90% {
+                    opacity: 1;
+                    bottom: 17vmin;
+                    left: 45vmin;
+                }
+                100% {
+                    opacity: 0;
+                    bottom: 17vmin;
+                    left: 45vmin;
+                }
+            }
+            @keyframes anim9 {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(45deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="intro">
+        	<div>
+            	<p>Build the Tower</p>
+            	<button onclick="start()">Start</button> 
+        	</div>
+        </div>
+        <div id="main">
+        	<div id="bg">
+        		<div id="land"></div>
+
+        		<div id="coins"><img src="images/coin.png"> 0</div>
+        		<div onclick="market()" id="market">Market</div>
+
+        		<div id="market2">
+        			<div id="close"><span onclick="closeMarket()">X</span></div>
+        			<table>
+        				<tr>
+        					<td id="percent" onclick="sellPercent(1)">0%</td>
+	        				<td>Quantity</td>
+	        				<td>Price</td>
+	        				<td id="total">Total</td>
+        				</tr>
+        				<tr>
+        					<td><img src="images/rock.png"></td>
+	        				<td id="quantity1">0</td>
+	        				<td id="price1">2 coins</td>
+	        				<td id="total1" onclick="sell1()">0</td>
+        				</tr>
+        				<tr>
+        					<td><img src="images/brick.png"></td>
+	        				<td id="quantity2">0</td>
+	        				<td id="price2">5 coins</td>
+	        				<td id="total2" onclick="sell2()">0</td>
+        				</tr>
+        			</table>
+        		</div>
+                <img id="anim1" src="images/rock.png">
+                <img id="anim2" src="images/rock.png">
+                <img id="anim3" src="images/rock.png">
+                <img id="anim4" src="images/brick.png">
+                <img id="anim6" src="images/brick.png">
+
+                <img id="stone" src="images/stone.png">
+                <div id="levelup" onclick="levelupStone()"><i class="fas fa-arrow-alt-up"></i></div>
+                <div id="stoneLv">
+                    <div id="closeStone" onclick="closeStone()">X</div>
+                    <p id="stoneLevel">Level 0</p>
+                    <p id="stoneTap">Stone per Tap: 0 => 0</p>
+                    <p id="stoneMiners">Miners: 0 => 0</p>
+                    <p id="stonePrice">Upgrade Price: 0 coins</p>
+                    <button id="btn" onclick="upgradeStone()">Upgrade</button>
+                </div>
+
+                <img id="miner" src="images/miner.png">
+                <img id="axe" src="images/axe.png">
+                <div onclick="addStone()" id="minerDiv"></div>
+
+                <div id="levelup2" onclick="levelupTransport()"><i class="fas fa-arrow-alt-up"></i></div>
+                <div id="transportLv">
+                    <div id="closeTransport" onclick="closeTransport()">X</div>
+                    <p id="transportLevel">Level 0</p>
+                    <p id="transportCapacity">Transport Capacity: 0 => 0</p>
+                    <p id="transportAmount"> Transporter Amount: 0 => 0</p>
+                    <p id="transportPrice">Upgrade Price: 0 coins</p>
+                    <button id="btn2" onclick="upgradeTransport()">Upgrade</button>
+                </div>
+        		<img id="stonePile" src="images/rock2.png">
+        		<div id="stoneCollect">0</div>
+
+                <img id="transporter" src="images/transporter.png">
+                <img id="transporter2" src="images/transporter2.png">
+                <div onclick="transportStone()" id="transporterDiv"></div>
+
+                <div id="levelup3" onclick="levelupBrick()"><i class="fas fa-arrow-alt-up"></i></div>
+                <div id="brickLv">
+                    <div id="closeBrick" onclick="closeBrick()">X</div>
+                    <p id="brickLevel">Level 0</p>
+                    <p id="brickTime">Brick per Time: 0 => 0</p>
+                    <p id="brickNumber">Number of Bricks: 0 => 0</p>
+                    <p id="brickPrice">Upgrade Price: 0 coins</p>
+                    <button id="btn3" onclick="upgradeBrick()">Upgrade</button>
+                </div>
+        		<img id="stonePile2" src="images/rock2.png">
+        		<div id="stoneCollect2">0</div>
+
+        		<img onclick="makeBrick()" id="stoneCutter" src="images/cutter.png">
+                <div id="progress"></div>
+
+        		<img onclick="transportBrick()" id="brickPile" src="images/brick3.png">
+        		<div onclick="transportBrick()" id="brickCollect">0</div>
+
+        		<div id="base"></div>
+        		<div id="base2"></div>
+                <div id="win">
+                    <p>You finished the tower</p>
+                    <button onclick="document.location.reload()">Restart</button>
+                </div>
+                <img id="final" src="images/final.png">
+                <div id="transparent"></div>
+        	</div>
+        </div>
+    <script>
+
+        var stones = 0;
+        var stoneRate = 1;
+        var stoneMiners = 0;
+        var stonePrice = 20;
+        var stoneLevel = 0;
+
+        var stones2 = 0;
+        var stone2Rate = 1;
+        var transportAmount = 0;
+        var transportPrice = 15;
+        var transportLevel = 0;
+
+        var bricks = 20000000;
+        var brickRate = 1;
+        var brickTime = 15.00;
+        var brickPrice = 40;
+        var brickLevel = 0;
+
+        var bricks2 = 0;
+        var brick2Rate = 1;
+
+        var floor = 48;
+        var coins = 22000000;
+        var count = 0;
+
+        document.getElementById('stoneCutter').style.pointerEvents = "auto";
+
+        function addStone() {
+        	stones += stoneRate;
+            document.getElementById('anim1').classList.remove("class1");
+            setTimeout(function() {
+                document.getElementById('anim1').classList.add("class1");
+            }, 10);
+        }
+        // function addStone2() {
+        //     n = setInterval(function() {
+        //         addStone();
+        //     }, 500);
+        // }
+        // function addStone3() {
+        //     clearInterval(n);
+        // }
+
+        function transportStone() {
+        	if(stones >= stone2Rate) {
+        		stones -= stone2Rate;
+        		stones2 += stone2Rate;
+                document.getElementById('anim2').classList.remove("class2");
+                setTimeout(function() {
+                    document.getElementById('anim2').classList.add("class2");
+                }, 10);
+        	}
+            else if(stones < stone2Rate && stones > 0) {
+                stones2 += stones;
+                stones -= stones;
+                document.getElementById('anim2').classList.remove("class2");
+                setTimeout(function() {
+                    document.getElementById('anim2').classList.add("class2");
+                }, 10);
+            }
+        }
+        // function transportStone2() {
+        //     m = setInterval(function() {
+        //         transportStone();
+        //     }, 500);
+        // }
+        // function transportStone3() {
+        //     clearInterval(m);
+        // }
+
+        function makeBrick() {
+        	if(stones2 >= brickRate) {
+                stones2 -= brickRate;
+                document.getElementById('stoneCutter').style.pointerEvents = "none";
+
+                setTimeout(function() {
+                    document.getElementById('stoneCutter').style.pointerEvents = "auto";
+                }, brickTime * 1000);
+
+        		
+                setTimeout(function() {
+                    bricks += brickRate;
+                }, brickTime * 1000);
+        		
+                document.getElementById('anim3').classList.remove("class3");
+                document.getElementById('progress').classList.remove("class5");
+                document.getElementById('anim4').classList.remove("class4");
+                setTimeout(function() {
+                    document.getElementById('anim3').classList.add("class3");
+                    document.getElementById('progress').style.animationDuration = brickTime + "s";
+                    document.getElementById('progress').classList.add("class5");
+                    document.getElementById('anim4').style.animationDelay = brickTime + "s";
+                    document.getElementById('anim4').classList.add("class4");
+                }, 10);
+        	}
+            else if(stones2 < brickRate && stones2 > 0) {
+                let temp = stones2;
+                stones2 -= stones2;
+                document.getElementById('stoneCutter').style.pointerEvents = "none";
+
+                setTimeout(function() {
+                    document.getElementById('stoneCutter').style.pointerEvents = "auto";
+                }, brickTime * 1000);
+
+                
+                setTimeout(function() {
+                    bricks += temp;
+                }, brickTime * 1000);
+                
+                document.getElementById('anim3').classList.remove("class3");
+                document.getElementById('progress').classList.remove("class5");
+                document.getElementById('anim4').classList.remove("class4");
+                setTimeout(function() {
+                    document.getElementById('anim3').classList.add("class3");
+                    document.getElementById('progress').style.animationDuration = brickTime + "s";
+                    document.getElementById('progress').classList.add("class5");
+                    document.getElementById('anim4').style.animationDelay = brickTime + "s";
+                    document.getElementById('anim4').classList.add("class4");
+                }, 10);
+            }
+        }
+
+        function transportBrick() {
+        	if(bricks >= brick2Rate) {
+        		bricks -= brick2Rate;
+        		bricks2 += 1;
+                document.getElementById('anim6').classList.remove("class6");
+                setTimeout(function() {
+                    document.getElementById('anim6').classList.add("class6");
+                }, 10);
+        	}
+        	let base = document.getElementById('base2').getElementsByTagName('img');
+        	let img = document.createElement('img');
+        	document.getElementById('base2').appendChild(img);
+
+        	base[bricks2-1].src = "images/brick.png";
+        	base[bricks2-1].style.width = "5.6vmin";
+        	base[bricks2-1].style.height = "2.85vmin";
+        	base[bricks2-1].style.position = "absolute";
+
+        	let temp = Math.floor((bricks2-1) / 8);
+        	base[bricks2-1].style.zIndex = bricks2;
+        	base[bricks2-1].style.bottom = 23 + 2.7 * temp + "vmin";
+        	base[bricks2-1].style.left = 92.5 + 5.5 * bricks2 - 44 * temp + "vmin";
+
+        	if ((bricks2-1) % 16 == 7 || (bricks2-1) % 16 == 8) {
+        		base[bricks2-1].src = "images/brick2.png";
+        		base[bricks2-1].style.width = "2.8vmin";
+        		base[bricks2-1].style.height = "2.85vmin";
+        	}
+        	if((temp) % 2 == 1) {
+        		base[bricks2-1].style.left = 89.7 + 5.5 * bricks2 - 44 * temp + "vmin";
+        	}
+        	if((bricks2-1) % 16 == 8) {
+        		base[bricks2-1].style.left = 92.5 + 5.5 * bricks2 - 44 * temp + "vmin";
+        	}
+        }
+        // function transportBrick2() {
+        //     z = setInterval(function() {
+        //         transportBrick();
+        //     }, 500);
+        // }
+        // function transportBrick3() {
+        //     clearInterval(z);
+        // }
+
+        function levelup() {
+            for(let i = 1; i <= 10; i++) {
+                if (bricks2 == i * floor) {
+                    brick2Rate = Math.pow(i + 1, 3);
+                    let img = document.createElement('img');
+                    document.getElementById('bg').appendChild(img);
+                    img.src = "images/floor2.png";
+                    img.style.width = "32vmin";
+                    img.style.height = "10vmin";
+                    img.style.position = "absolute";
+                    img.style.bottom = i * 16 + 11 + "vmin";
+                    img.style.left = "102vmin";
+                    img.style.zIndex = "9999";
+                    if(i == 1) {
+                        img.src = "images/floor.png";
+                        img.style.height = "13vmin";
+                        img.style.bottom = "23vmin";
+                    }
+                    if(i > 3) {
+                        document.getElementById('bg').style.height = 50 + (i * 16.5) + "vmin";
+                    }
+                    if (i == 10) {
+                        document.getElementById('final').style.display = "block";
+                        document.getElementById('transparent').style.display = "block";
+                        document.getElementById('win').style.display = "block";
+                    }
+                }
+            }
+        }
+
+        function transporter() {
+                setInterval(function() {
+                    if(stones >= transportAmount && transportAmount >= 1) {
+                        stones -= Math.floor(transportAmount);
+                        setTimeout(function() {
+                            stones2 += Math.floor(transportAmount);
+                        }, 1200);
+                        document.getElementById('transporter').classList.remove("class7");
+                        setTimeout(function() {
+                            document.getElementById('transporter').classList.add("class7");
+                        }, 10);
+                        document.getElementById('transporter2').classList.remove("class8");
+                        setTimeout(function() {
+                            document.getElementById('transporter2').classList.add("class8");
+                        }, 10);
+                    }
+                }, 2400);
+        }
+        function miner() {
+            setInterval(function() {
+                if(stoneMiners >= 1) {
+                    stones += Math.floor(stoneMiners);
+                    document.getElementById('miner').style.opacity = "1";
+                    document.getElementById('axe').style.opacity = "1";
+                    document.getElementById('axe').classList.add("class9");   
+                }
+            }, 1000);
+        }
+        transporter();
+        miner();
+
+        function market() {
+        	document.getElementById('market2').style.display = "block";
+        }
+        function closeMarket() {
+        	document.getElementById('market2').style.display = "none";
+        }
+        function sellPercent(n) {
+        	count += n;
+        	if (count%3 == 0) {
+        		document.getElementById('percent').innerHTML = "10%";
+
+        		document.getElementById('quantity1').innerHTML = Math.floor(stones / 10);
+                document.getElementById('total1').innerHTML = Math.floor(stones / 10) * 2;
+
+                document.getElementById('quantity2').innerHTML = Math.floor(bricks / 10);
+                document.getElementById('total2').innerHTML = Math.floor(bricks / 10) * 5;
+        	}
+        	else if (count%3 == 1) {
+        		document.getElementById('percent').innerHTML = "50%";
+
+                document.getElementById('quantity1').innerHTML = Math.floor(stones / 2);
+                document.getElementById('total1').innerHTML = Math.floor(stones / 2) * 2;
+
+                document.getElementById('quantity2').innerHTML = Math.floor(bricks / 2);
+                document.getElementById('total2').innerHTML = Math.floor(bricks / 2) * 5;
+        	}
+        	else if (count%3 == 2) {
+        		document.getElementById('percent').innerHTML = "100%";
+
+                document.getElementById('quantity1').innerHTML = Math.floor(stones);
+                document.getElementById('total1').innerHTML = Math.floor(stones) * 2;
+
+                document.getElementById('quantity2').innerHTML = Math.floor(bricks);
+                document.getElementById('total2').innerHTML = Math.floor(bricks) * 5;
+        	}
+        }
+        function sell1() {
+            if(count%3 == 0) {
+                coins += Math.floor(stones / 10) * 2;
+                stones -= Math.floor(stones / 10);
+            }
+            else if(count%3 == 1) {
+                coins += Math.floor(stones / 2) * 2;
+                stones -= Math.floor(stones / 2);
+            }
+            else if(count%3 == 2) {
+                coins += Math.floor(stones) * 2;
+                stones -= Math.floor(stones);
+            }
+        }
+        function sell2() {
+            if(count%3 == 0) {
+                coins += Math.floor(bricks / 10) * 5;
+                bricks -= Math.floor(bricks / 10);
+            }
+            else if(count%3 == 1) {
+                coins += Math.floor(bricks / 2) * 5;
+                bricks -= Math.floor(bricks / 2);
+            }
+            else if(count%3 == 2) {
+                coins += Math.floor(bricks) * 5;
+                bricks -= Math.floor(bricks);
+            }
+        }
+
+        function closeStone() {
+            document.getElementById('stoneLv').style.display = "none";
+        }
+        function closeTransport() {
+            document.getElementById('transportLv').style.display = "none";
+        }
+        function closeBrick() {
+            document.getElementById('brickLv').style.display = "none";
+        }
+
+        function levelupStone() {
+            document.getElementById('stoneLv').style.display = "block";
+            document.getElementById('transportLv').style.display = "none";
+            document.getElementById('brickLv').style.display = "none";
+
+            document.getElementById('stoneLevel').innerHTML = "Level " + stoneLevel;
+            document.getElementById('stoneTap').innerHTML = "Stone per Tap: " + stoneRate + " => " + Math.floor(stoneRate * 1.2 + 1);
+            document.getElementById('stoneMiners').innerHTML = "Miners: " + Math.floor(stoneMiners) + " => " + Math.floor(stoneMiners + 0.2);
+            document.getElementById('stonePrice').innerHTML = "Upgrade Price: " + stonePrice + " coins";
+
+            stoneLevelMax();
+        }
+        function levelupTransport() {
+            document.getElementById('stoneLv').style.display = "none";
+            document.getElementById('transportLv').style.display = "block";
+            document.getElementById('brickLv').style.display = "none";
+
+            document.getElementById('transportLevel').innerHTML = "Level " + transportLevel;
+            document.getElementById('transportCapacity').innerHTML = "Transport Capacity: " + stone2Rate + " => " + Math.floor(stone2Rate * 1.1 + 3);
+            document.getElementById('transportAmount').innerHTML = "Transporter Amount: " + Math.floor(transportAmount) + " => " + Math.floor(transportAmount + 0.5);
+            document.getElementById('transportPrice').innerHTML = "Upgrade Price: " + transportPrice + " coins";
+
+            transportLevelMax();
+        }
+        function levelupBrick() {
+            document.getElementById('stoneLv').style.display = "none";
+            document.getElementById('transportLv').style.display = "none";
+            document.getElementById('brickLv').style.display = "block";
+
+            document.getElementById('brickLevel').innerHTML = "Level " + brickLevel;
+            document.getElementById('brickTime').innerHTML = "Brick per Time: " + brickTime.toFixed(2) + " => " + (brickTime * 0.9).toFixed(2);
+            document.getElementById('brickNumber').innerHTML = "Number of Bricks: " + brickRate + " => " + Math.floor(brickRate * 1.15 + 1);
+            document.getElementById('brickPrice').innerHTML = "Upgrade Price: " + brickPrice + " coins";
+
+            brickLevelMax();
+        }
+
+        function upgradeStone() {
+            if(coins >= stonePrice) {
+                coins -= stonePrice;
+                stoneLevel++;
+                stoneRate = Math.floor(stoneRate * 1.2) + 1;
+                stoneMiners += 0.2;
+                stonePrice = Math.floor(stonePrice * 1.3) + 20;
+                levelupStone();
+            }
+            stoneLevelMax();
+        }
+        function upgradeTransport() {
+            if(coins >= transportPrice) {
+                coins -= transportPrice;
+                transportLevel++;
+                stone2Rate = Math.floor(stone2Rate * 1.1) + 3;
+                transportAmount += 0.5;
+                transportPrice = Math.floor(transportPrice * 1.2) + 15;
+                levelupTransport();
+            }
+            transportLevelMax();
+        }
+        function upgradeBrick() {
+            if(coins >= brickPrice && document.getElementById('stoneCutter').style.pointerEvents == "auto") {
+                coins -= brickPrice;
+                brickLevel++;
+                brickRate = Math.floor(brickRate * 1.15) + 1;
+                brickTime = brickTime * 0.9;
+                brickTime.toFixed(2);
+                brickPrice = Math.floor(brickPrice * 1.3) + 40;
+                levelupBrick();
+            }
+            brickLevelMax();
+        }
+
+        function checkUpgrades() {
+            if(coins >= stonePrice) {
+                document.getElementById('levelup').style.backgroundColor = "#da8e57";
+                document.getElementById('btn').style.backgroundColor = "#da8e57";
+            }
+            else {
+                document.getElementById('levelup').style.backgroundColor = "#707070";
+                document.getElementById('btn').style.backgroundColor = "#606060";
+            }
+
+            if(coins >= transportPrice) {
+                document.getElementById('levelup2').style.backgroundColor = "#da8e57";
+                document.getElementById('btn2').style.backgroundColor = "#da8e57";
+            }
+            else {
+                document.getElementById('levelup2').style.backgroundColor = "#707070";
+                document.getElementById('btn2').style.backgroundColor = "#606060";
+            }
+
+            if(coins >= brickPrice) {
+                document.getElementById('levelup3').style.backgroundColor = "#da8e57";
+                document.getElementById('btn3').style.backgroundColor = "#da8e57";
+            }
+            else {
+                document.getElementById('levelup3').style.backgroundColor = "#707070";
+                document.getElementById('btn3').style.backgroundColor = "#606060";
+            }
+        }
+
+        function stoneLevelMax() {
+            if(stoneLevel == 30) {
+                document.getElementById('stoneTap').innerHTML = "Stone per Tap: " + stoneRate;
+                document.getElementById('stoneMiners').innerHTML = "Miners: " + Math.floor(stoneMiners);
+                document.getElementById('stonePrice').innerHTML = "Upgrade Price: -- coins";
+                document.getElementById('btn').style.pointerEvents = "none";
+            }
+        }
+        function transportLevelMax() {
+            if(transportLevel == 30) {
+                document.getElementById('transportCapacity').innerHTML = "Transport Capacity: " + stone2Rate;
+                document.getElementById('transportAmount').innerHTML = "Transporter Amount: " + Math.floor(transportAmount);
+                document.getElementById('transportPrice').innerHTML = "Upgrade Price: -- coins";
+                document.getElementById('btn2').style.pointerEvents = "none";
+            }
+        }
+        function brickLevelMax() {
+            if(brickLevel == 30) {
+                document.getElementById('brickTime').innerHTML = "Brick per Time: " + brickTime.toFixed(2);
+                document.getElementById('brickNumber').innerHTML = "Number of Bricks: " + brickRate;
+                document.getElementById('brickPrice').innerHTML = "Upgrade Price: -- coins";
+                document.getElementById('btn3').style.pointerEvents = "none";
+            }
+        }
+
+        setInterval(function() {
+            document.getElementById('stoneCollect').innerHTML = Math.floor(stones);
+            document.getElementById('stoneCollect2').innerHTML = Math.floor(stones2);
+            document.getElementById('brickCollect').innerHTML = Math.floor(bricks);
+            document.getElementById('coins').innerHTML = '<img src="images/coin.png">' + coins;
+            sellPercent(0);
+            levelup();
+            checkUpgrades();
+        }, 50);
+        	
+        function start() {
+            document.getElementById('intro').style.display = "none";
+            document.getElementById('main').style.display = "block";
+        }
+    </script>
+</body>
+</html>

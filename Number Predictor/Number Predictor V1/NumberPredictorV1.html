@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Number Predictor</title>
+        <meta charset="utf-8">
+        <link rel="icon" href="number_predictor.png" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Iceberg" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background-color: gold;
+                font-family: Iceberg;
+            }
+            #div {
+                height: 50vh;
+                display: block;
+                padding: 10%;
+            }
+            #div1, #div2, #div3, #div4, #div5, #div6, #lastdiv {
+                height: 50vh;
+                display: none;
+                padding: 10%;
+            }
+            table {
+                margin: auto;
+            }
+            td {
+                font-size: 6vh;
+                padding: 2vh 3vh;
+                text-align: center;
+                font-weight: bold;
+            }
+            button {
+                background-color: yellow;
+                font-weight: bold;
+                border-radius: 10px;
+                font-size: 4vh;
+                padding: 1% 3%;
+                margin: 2%;
+            }
+            #div h1 {
+                text-align: center;
+                font-size: 6vh;
+            }
+            #div h2 {
+                font-size: 4.5vh;
+                padding: 1%;
+                text-align: center;
+            }
+            #div1 h2, #div2 h2, #div3 h2, #div4 h2, #div5 h2, #div6 h2 {
+                text-align: center;
+                margin-bottom: 2%;
+                font-size: 5vh;
+            }
+            #final1 {
+                color: gold;
+                font-size: 7vh;
+                text-align: left;
+                margin-left: 30%;
+                animation-name: f1;
+                animation-duration: 100s;
+                animation-iteration-count: 1;
+            }
+            @keyframes f1 {
+                0%    { font-size: 0vh; }
+                0.5%  { font-size: 9vh; color: black; }
+                1%    { font-size: 7vh; color: black; }
+                100%  { font-size: 7vh; color: black; }
+            }
+            #final2 {
+                color: gold;
+                font-size: 6vh;
+                text-align: center;
+                padding: 3%;
+                animation-name: f2;
+                animation-duration: 100s;
+                animation-delay: 1s;
+                animation-iteration-count: 1;
+            }
+            @keyframes f2 {
+                0%    { font-size: 0vh; }
+                0.5%  { font-size: 8vh; color: black; }
+                1%    { font-size: 6vh; color: black; }
+                100%  { font-size: 6vh; color: black; }
+            }
+            #final3 {
+                color: gold;
+                font-size: 8vh;
+                text-align: right;
+                margin-right: 30%;
+                animation-name: f3;
+                animation-duration: 100s;
+                animation-delay: 2s; 
+                animation-iteration-count: 1;
+            }
+            @keyframes f3 {
+                0%    { font-size: 0vh; }
+                0.5%  { font-size: 11vh; color: black; }
+                1%    { font-size: 8vh; color: black; }
+                100%  { font-size: 8vh; color: black; }
+            }
+            #result {
+                color: gold;
+                font-size: 10vh;
+                text-align: center;
+                margin-bottom: 3%;
+                font-weight: bolder;
+                animation-name: f4;
+                animation-duration: 100s;
+                animation-delay: 3.5s;
+                animation-iteration-count: 1;
+            }
+            @keyframes f4 {
+                0%    { font-size: 0vh; }
+                0.5%  { font-size: 15vh; color: black; }
+                1%    { font-size: 10vh; color: black; }
+                100%  { font-size: 10vh; color: black; }
+            }
+            #lastbtn {
+                background-color: gold;
+                color: gold;
+                border-width: 0;
+                animation-name: f5;
+                animation-duration: 100s;
+                animation-delay: 4.5s;
+                animation-iteration-count: 1;
+            }
+            @keyframes f5 {
+                0%    { color: gold; background-color: gold; }
+                1%    { border-width: 3px; color: black; background-color: yellow; }
+                100%  { color: black; background-color: yellow; }
+            }
+
+            @media only screen and (max-width:600px) {
+                #div h1, #div h2 {
+                    font-size: 5vw;
+                    margin-bottom: 1vh;
+                }
+                #div1 h2, #div2 h2, #div3 h2, #div4 h2, #div5 h2, #div6 h2 {
+                    font-size: 5vw;
+                    margin-bottom: 5vh;
+                }
+                td {
+                    font-size: 4.5vw;
+                    padding: 2vh 2vw;
+                }
+                #final1 {
+                    margin-left: 10%;
+                } 
+                #final3 {
+                    margin-right: 10%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="div">
+            <h1>WELCOME</h1>
+            <h2>I'm going to tell you the rules of this game. Have fun!<span>&#128521;</span></h2>
+            <h2>You should chose a number from 0 to 63 and answer if you see that number by clicking "yes" or "no" button</h2>
+            <h2>After 6 stages you will get the number you were thinking for<span>&#128562;</span></h2>
+            <h2>So it's very simple, let's play!</h2>
+            <center><button onclick="func1()">Ok</button></center>  
+        </div>
+
+        <div id="div1">
+              <h2>Do you see your number below?</h2>
+              <table>
+                  <tr>
+                      <td>20</td><td>52</td><td>49</td><td>31</td><td>16</td><td>25</td><td>48</td><td>62</td>
+                  </tr>
+                  <tr>
+                      <td>19</td><td>30</td><td>55</td><td>53</td><td>61</td><td>22</td><td>17</td><td>60</td>
+                  </tr>
+                  <tr>
+                      <td>27</td><td>18</td><td>59</td><td>63</td><td>28</td><td>21</td><td>50</td><td>56</td>
+                  </tr>
+                  <tr>
+                      <td>29</td><td>23</td><td>57</td><td>51</td><td>4</td><td>58</td><td>26</td><td>54</td>
+                  </tr>
+              </table>
+          <center><div>
+              <button id="yes1" onclick="func2('yes1')">Yes</button>
+              <button id="no1" onclick="func2('no1')">No</button>
+          </div></center>
+        </div>
+
+        <div id="div2">
+            <h2>How about there?</h2>
+            <table>
+                <tr>
+                    <td>27</td><td>38</td><td>11</td><td>47</td><td>22</td><td>6</td><td>55</td><td>62</td>
+                </tr>
+                <tr>
+                    <td>39</td><td>14</td><td>7</td><td>50</td><td>23</td><td>19</td><td>51</td><td>26</td>
+                </tr>
+                <tr>
+                    <td>3</td><td>10</td><td>31</td><td>58</td><td>42</td><td>46</td><td>15</td><td>54</td>
+                </tr>
+                <tr>
+                    <td>30</td><td>18</td><td>34</td><td>59</td><td>63</td><td>2</td><td>35</td><td>43</td>
+                </tr>
+            </table>
+            <center><div>
+                <button id="yes2" onclick="func3('yes2')">Yes</button>
+                <button id="no2" onclick="func3('no2')">No</button>
+            </div></center>
+        </div>
+
+        <div id="div3">
+            <h2>And there?</h2>
+            <table>
+                <tr>
+                    <td>25</td><td>41</td><td>58</td><td>13</td><td>30</td><td>8</td><td>44</td><td>61</td>
+                </tr>
+                <tr>
+                    <td>43</td><td>29</td><td>60</td><td>14</td><td>31</td><td>46</td><td>9</td><td>57</td>
+                </tr>
+                <tr>
+                    <td>11</td><td>28</td><td>45</td><td>24</td><td>63</td><td>42</td><td>12</td><td>59</td>
+                </tr>
+                <tr>
+                    <td>56</td><td>27</td><td>40</td><td>15</td><td>62</td><td>47</td><td>10</td><td>26</td>
+                </tr>
+            </table>
+            <center><div>
+                <button id="yes3" onclick="func4('yes3')">Yes</button>
+                <button id="no3" onclick="func4('no3')">No</button>
+            </div></center>
+        </div>
+
+        <div id="div4">
+            <h2>Make sure if it's there.</h2>
+            <table>
+                <tr>
+                    <td>37</td><td>11</td><td>59</td><td>41</td><td>23</td><td>1</td><td>9</td><td>31</td>
+                </tr> 
+                <tr>
+                    <td>55</td><td>21</td><td>39</td><td>7</td><td>61</td><td>33</td><td>15</td><td>29</td>
+                </tr>
+                <tr>
+                    <td>63</td><td>25</td><td>3</td><td>51</td><td>47</td><td>35</td><td>17</td><td>53</td>
+                </tr>
+                <tr>
+                    <td>43</td><td>5</td><td>57</td><td>49</td><td>19</td><td>27</td><td>13</td><td>45</td>
+                </tr>
+            </table>
+            <center><div>
+                <button id="yes4" onclick="func5('yes4')">Yes</button>
+                <button id="no4" onclick="func5('no4')">No</button>
+            </div></center>
+        </div>
+
+        <div id="div5">
+            <h2>Almost finish!</h2>
+            <table>
+                <tr>
+                    <td>59</td><td>43</td><td>32</td><td>40</td><td>61</td><td>37</td><td>54</td><td>49</td>
+                </tr>
+                <tr>
+                    <td>50</td><td>38</td><td>63</td><td>44</td><td>57</td><td>41</td><td>33</td><td>52</td>
+                </tr>
+                <tr>
+                    <td>39</td><td>62</td><td>45</td><td>51</td><td>34</td><td>48</td><td>60</td><td>46</td>
+                </tr>
+                <tr>
+                    <td>58</td><td>35</td><td>47</td><td>55</td><td>42</td><td>36</td><td>53</td><td>56</td>
+                </tr>
+            </table>
+            <center><div>
+                <button id="yes5" onclick="func6('yes5')">Yes</button>
+                <button id="no5" onclick="func6('no5')">No</button>
+            </div></center>
+        </div>
+
+        <div id="div6">
+          <h2>That's the last one &#128512;</h2>
+            <table>
+                <tr>
+                    <td>44</td><td>12</td><td>21</td><td>54</td><td>63</td><td>15</td><td>20</td><td>31</td>
+                </tr>
+                <tr>
+                    <td>47</td><td>22</td><td>38</td><td>61</td><td>7</td><td>14</td><td>55</td><td>39</td>
+                </tr>
+                <tr>
+                    <td>5</td><td>62</td><td>29</td><td>45</td><td>30</td><td>13</td><td>53</td><td>6</td>
+                </tr>
+                <tr>
+                    <td>60</td><td>37</td><td>23</td><td>4</td><td>52</td><td>36</td><td>28</td><td>46</td>
+                </tr>
+            </table>
+            <center><div>
+                <button id="yes6" onclick="func('yes6')">Yes</button>
+                <button id="no6" onclick="func('no6')">No</button>
+            </div></center>
+        </div>
+
+        <div id="lastdiv">
+            <h1 id="final1">And...</h1>
+            <h2 id="final2">Your number</h2>
+            <h1 id="final3">is...</h1>
+            <h1 id="result"></h1>
+            <center><button id="lastbtn" onclick="reset('lastbtn')">Play Again</button></center>
+        </div>
+        
+        <script>
+            var rez = 0;
+            function func1() {
+                document.getElementById('div').style.display='none';
+                document.getElementById('div1').style.display='block';
+            }
+            function func2(choice) {
+                if (choice=='yes1') { rez += 16; }
+                document.getElementById('div1').style.display='none';
+                document.getElementById('div2').style.display='block';
+            }
+            function func3(choice) {
+                if (choice=='yes2') { rez += 2; }
+                document.getElementById('div2').style.display='none';
+                document.getElementById('div3').style.display='block';
+            }
+            function func4(choice) {
+                if (choice=='yes3') { rez += 8; }
+                document.getElementById('div3').style.display='none';
+                document.getElementById('div4').style.display='block';
+            }
+            function func5(choice) {
+                if (choice=='yes4') { rez += 1; }
+                document.getElementById('div4').style.display='none';
+                document.getElementById('div5').style.display='block';
+            }
+            function func6(choice) {
+                if (choice=='yes5') { rez += 32; }
+                document.getElementById('div5').style.display='none';
+                document.getElementById('div6').style.display='block';
+            }
+            function func(choice) {
+                if (choice=='yes6') { rez += 4; }
+                document.getElementById('div6').style.display='none';
+                document.getElementById('lastdiv').style.display='block';
+                document.getElementById('result').innerHTML = rez;
+            }
+            function reset(loop) {
+                if (loop =='lastbtn') { rez = 0; }
+                document.getElementById('div').style.display='block';
+                document.getElementById('lastdiv').style.display='none';
+            }
+        </script>
+    </body>
+</html>

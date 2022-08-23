@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Tic Tac Toe</title>
+        <meta charset="utf-8">
+        <link rel="icon" href="tic_tac_toe.png" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+        	* {
+        		box-sizing: border-box;
+        		margin: 0;
+        		background-color: #192124;
+         	}
+         	[id*="btn"] {
+         		position: absolute;
+         		width: 10vw;
+         		height: 20vh;
+         		background-color: rgba(255, 150, 255, 0.1);
+         		border: 1vh solid #192124;
+         	}
+         	.addClass {
+         		display: flex;
+         		justify-content: center;
+         		align-items: center;
+         		font-size: 7vw;
+         		font-weight: bold;
+         		color: #44ddbb;
+         		font-family: monospace;
+         	}
+         	/*congrats {
+         		position: absolute;
+         		top: 0;
+         		left: 0;
+         		width: 100vw;
+         		height: 100vh;
+         		z-index: 1;
+         		display: flex;
+         		justify-content: center;
+         		align-items: center;
+         		font-size: 20vw;
+         		font-weight: bold;
+         		color: #44ddbb;
+         		font-family: monospace;
+         		backdrop-filter: blur(3px);
+         		background-color: rgba(255, 255, 255, 0.05);
+         	}*/
+		</style>
+    </head>
+    <body>
+    	<!-- <div id="congrats"></div> -->
+    	<div class="mainGame">
+    		<div onclick="symbol(this), win()" id="btn1" style="top: 20vh; left: 35vw"></div>
+    		<div onclick="symbol(this), win()" id="btn2" style="top: 20vh; left: 45vw"></div>
+    		<div onclick="symbol(this), win()" id="btn3" style="top: 20vh; left: 55vw"></div>
+    		<div onclick="symbol(this), win()" id="btn4" style="top: 40vh; left: 35vw"></div>
+    		<div onclick="symbol(this), win()" id="btn5" style="top: 40vh; left: 45vw"></div>
+    		<div onclick="symbol(this), win()" id="btn6" style="top: 40vh; left: 55vw"></div>
+    		<div onclick="symbol(this), win()" id="btn7" style="top: 60vh; left: 35vw"></div>
+    		<div onclick="symbol(this), win()" id="btn8" style="top: 60vh; left: 45vw"></div>
+    		<div onclick="symbol(this), win()" id="btn9" style="top: 60vh; left: 55vw"></div> 	
+    	</div>
+
+	<script>
+		var count = 0;
+		var btn = [];
+
+		for(let i = 0; i < 9; i++) {
+			btn[i] = document.getElementById("btn" + (i + 1));
+		}
+
+		function symbol(n) {
+			if(n.innerHTML === "") {
+				n.className = "addClass";
+				count += 1;
+				if(count%2 === 0) {
+					n.innerHTML = "O";
+				}
+				else {
+					n.innerHTML = "X";
+				}
+			}
+		}
+
+		function win() {
+
+			if( (btn[0].innerHTML === "X" && btn[1].innerHTML === "X" && btn[2].innerHTML === "X") || 
+				(btn[3].innerHTML === "X" && btn[4].innerHTML === "X" && btn[5].innerHTML === "X") ||
+				(btn[6].innerHTML === "X" && btn[7].innerHTML === "X" && btn[8].innerHTML === "X") ||
+				(btn[0].innerHTML === "X" && btn[3].innerHTML === "X" && btn[6].innerHTML === "X") || 
+				(btn[1].innerHTML === "X" && btn[4].innerHTML === "X" && btn[7].innerHTML === "X") ||
+				(btn[2].innerHTML === "X" && btn[5].innerHTML === "X" && btn[8].innerHTML === "X") ||
+				(btn[0].innerHTML === "X" && btn[4].innerHTML === "X" && btn[8].innerHTML === "X") || 
+				(btn[2].innerHTML === "X" && btn[4].innerHTML === "X" && btn[6].innerHTML === "X") ) 
+			{
+				setTimeout(function() {
+					alert("X wins");
+					document.location.reload();
+				}, 100);
+				
+			}
+
+			else if( (btn[0].innerHTML === "O" && btn[1].innerHTML === "O" && btn[2].innerHTML === "O") || 
+				(btn[3].innerHTML === "O" && btn[4].innerHTML === "O" && btn[5].innerHTML === "O") ||
+				(btn[6].innerHTML === "O" && btn[7].innerHTML === "O" && btn[8].innerHTML === "O") ||
+				(btn[0].innerHTML === "O" && btn[3].innerHTML === "O" && btn[6].innerHTML === "O") || 
+				(btn[1].innerHTML === "O" && btn[4].innerHTML === "O" && btn[7].innerHTML === "O") ||
+				(btn[2].innerHTML === "O" && btn[5].innerHTML === "O" && btn[8].innerHTML === "O") ||
+				(btn[0].innerHTML === "O" && btn[4].innerHTML === "O" && btn[8].innerHTML === "O") || 
+				(btn[2].innerHTML === "O" && btn[4].innerHTML === "O" && btn[6].innerHTML === "O") ) 
+			{
+				setTimeout(function() {
+					alert("O wins");
+					document.location.reload();
+				}, 100);
+			}
+			
+			else if( btn[0].innerHTML !== "" &&
+				btn[1].innerHTML !== "" &&
+				btn[2].innerHTML !== "" &&
+				btn[3].innerHTML !== "" &&
+				btn[4].innerHTML !== "" &&
+				btn[5].innerHTML !== "" &&
+				btn[6].innerHTML !== "" &&
+				btn[7].innerHTML !== "" &&
+				btn[8].innerHTML !== "" )
+			{
+				setTimeout(function() {
+					alert("it's draw");
+					document.location.reload();
+				}, 100);
+			}
+
+		}
+
+	</script>
+</body>
+</html>

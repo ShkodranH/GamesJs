@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Furious Click</title>
+        <link rel="icon" href="furious_click.png" type="image/jpg">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                font-family: cursive;
+            }
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #222222;
+            }
+            #intro {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+            }
+            #intro p {
+                font-size: 5vw;
+                color: white;
+                font-weight: bold;
+            }
+            #intro i {
+                font-size: 25vw;
+                color: #cccccc;
+                padding-left: 5vw;
+                transform: rotate(-30deg);
+            }
+            #intro span {
+                cursor: default;
+                position: absolute;
+                top: 52vh;
+                left: 47vw;
+                font-size: 3vw;
+                font-weight: bold;
+            }
+            #main {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+            }
+            #main #level {
+                height: 65vh;
+                font-size: 4vw;
+                font-weight: bold;
+                color: skyblue;
+            }
+            #main #iconbg {
+                position: absolute;
+                top: 25vh;
+                left: 40vw;
+                width: 20vw;
+                height: 20vw;
+            }
+            #main #iconbg img {
+                width: 20vw;
+                height: 20vw;
+            }
+            #main #iconfill {
+                position: absolute;
+                top: 25vh;
+                left: 40vw;
+                width: 20vw;
+                height: 20vw;
+                overflow: hidden;
+            }
+            #main #iconfill img {
+                width: 20vw;
+                height: 20vw;
+            }
+            #main #percent {
+                height: 15vh;
+                font-size: 2vw;
+                color: #99ccff;
+            }
+            #main #clickbtn {
+                cursor: pointer;
+                user-select: none;
+                width: 25vw;
+                height: 10vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 2.5vw;
+                color: white;
+                border-radius: 20px;
+                background-color: deepskyblue;
+            }
+            #finish {
+                display: none;
+                justify-content: flex-start;
+                align-items: center;
+                flex-flow: column nowrap;
+            }
+            #finish p {
+                width: 0%;
+                display: flex;
+                justify-content: center;
+                font-size: 5vw;
+                color: white;
+                font-weight: bold;
+                color: greenyellow;
+                overflow: hidden;
+                animation-name: anim1;
+                animation-fill-mode: forwards;
+                animation-duration: 2s;
+                animation-delay: 1s;
+            }
+            #finish pre{
+                width: 0%;
+                display: flex;
+                justify-content: center;
+                flex-flow: row nowrap;
+                text-align: center;
+                font-size: 9vw;
+                color: white;
+                font-weight: bold;
+                color: gold;
+                overflow: hidden;
+                animation-name: anim1;
+                animation-fill-mode: forwards;
+                animation-duration: 2s;
+                animation-delay: 2s;
+            }
+            #finish button {
+                width: 20vw;
+                height: 7vh;
+                opacity: 0;
+                border: 0;
+                border-radius: 200px;
+                background-color: lightskyblue;
+                margin-top: 15vh;
+                font-size: 2vw;
+                animation-name: anim2;
+                animation-fill-mode: forwards;
+                animation-duration: 2s;
+                animation-delay: 3s;
+            }
+            @keyframes anim1 {
+                from {
+                    width: 0%;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+
+            @keyframes anim2 {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
+    </head>
+    <body onkeydown="keypress(event)">
+        <div id="intro">
+            <p>Furious Click</p>
+            <i class="fas fa-mouse-pointer" onclick="start()"></i>
+            <span onclick="start()">Start</span>
+        </div>
+
+        <div id="main">
+            <div id="level">Level 1</div>
+            <div id="iconbg"><img src=""></div>
+            <div id="iconfill"><img src=""></div>
+            <div id="percent">0%</div>
+            <div id="clickbtn" onclick="clickMe()">Click Me</div>
+        </div>
+        <div id="finish">
+            <p>Congrats</p>
+            <pre>You Win!</pre>
+            <button onclick="document.location.reload()">Play Again</button>
+        </div>
+    <script>
+        var arr = [
+        "star",
+        "envelope",
+        "lightbulb",
+        "paperplane",
+        "cherry",
+        "cake",
+        "rocket",
+        "house",
+        "bus",
+        "atom"
+        ];
+        var level = 1;
+        var percent = 0;
+
+        function keypress(event) {
+            if (event.keyCode == 71) {
+                clickMe();
+            }
+        }
+
+        function drawIcon() {
+            for(let i = 0; i < 10; i++) {
+                if(level == i + 1) {
+                    document.getElementById('iconbg').getElementsByTagName('img')[0].src = "images/" + arr[i] + "bg.png";
+                    document.getElementById('iconfill').getElementsByTagName('img')[0].src = "images/" + arr[i] + ".png";
+                    document.getElementById('iconfill').style.width = percent + "vw";
+                }
+
+            }
+        }
+
+        var x = setInterval(function() {
+            if(percent >= 20) {
+                percent -= 0;
+            }
+            else {
+                percent -= (level - 1) * 0.05;
+            }
+            document.getElementById('iconfill').style.width = percent + "vw";
+            percentage();
+        },50);
+
+        function clickMe() {
+            percent += 2;
+            percentage();
+
+            if(percent >= 20) {
+                setTimeout(function() {
+                    levelup();
+                }, 50)
+            }
+            drawIcon();
+        }
+
+        function percentage() {
+            if(percent > 20) {
+                percent = 20;
+            }
+            else if(percent < 0) {
+                percent = 0;
+            }
+            document.getElementById('percent').innerHTML = parseInt(5 * percent) + "%";  
+        }
+
+        function win() {
+            document.getElementById('main').style.display = "none";
+            document.getElementById('finish').style.display = "flex";
+        }
+
+        function levelup() {
+            alert('You Completed this Level');
+            if(level == 10) {
+                win();
+            }
+            level++;
+            document.getElementById('level').innerHTML = "Level " + level;
+            percent = 0;
+            percentage();
+
+            drawIcon();
+        }
+
+
+        function start() {
+            document.getElementById('intro').style.display = "none";
+            document.getElementById('main').style.display = "flex";
+            drawIcon();
+        }
+    </script>
+</body>
+</html>

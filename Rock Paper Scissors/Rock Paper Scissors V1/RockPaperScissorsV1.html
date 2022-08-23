@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Rock Paper Scissors</title>
+        <meta charset="utf-8">
+        <link rel="icon" href="rock_paper_scissors.png" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://kit.fontawesome.com/6a55ad4003.js" crossorigin="anonymous"></script>
+
+        <style>
+        	* {
+        		box-sizing: border-box;
+        		margin: 0;
+        		font-family: cursive;
+         	}
+         	body {
+         		background-color: skyblue;
+         	}
+         	#player1 {
+         		width: 100%;
+         		height: 100vh;
+         		border-radius: 25px;
+         		display: flex;
+         		flex-flow: column nowrap;
+        		justify-content: center;
+         		align-items: center;
+         	}
+         	#player1 .info, #player1 .info2 {
+         		display: flex;
+         		justify-content: center;
+         		align-items: center;
+         		width: 100%;
+         		height: 10vh;
+         	}
+         	#player1 .info span, #player1 .info2 span {
+         		width: 33%;
+         		font-size: 1.5vw;
+         		text-align: center;
+         	}
+         	#player1 .info2 span {
+         		color: white;
+         		font-size: 2.5vw;
+         	}
+         	#player1 .info2 [id *= "fstar"] {
+         		display: none;
+         	}
+         	#player1 .moves {
+         		display: flex;
+         		justify-content: center;
+         		align-items: center;
+         		width: 100%;
+         		height: 60vh;
+         		background-color: #97d5fb;
+         	}
+         	#player1 .moves div {
+         		width: 33%;
+         		font-size: 10vw;
+         		color: #c68642;
+         		text-align: center;
+         	}
+         	#player1 .choose {
+         		display: flex;
+         		justify-content: center;
+         		align-items: center;
+         		width: 100%;
+         		height: 20vh;
+         	}
+         	#player1 .choose div {
+         		width: 33%;
+         		font-size: 1.5vw;
+         		color: black;
+         		text-align: center;
+         		display: flex;
+         		justify-content: space-evenly;
+         	}
+         	#player1 .choose div i{
+         		font-size: 2.5vw;
+         		color: #c68642;
+         		padding: 1vw;
+         		background-color: #dddddd;
+         		border-radius: 50%;
+         	}
+         	#player1 .choose div button {
+         		font-size: 1.5vw;
+         		width: 8vw;
+         		height: 6vh;
+         		border: 5px solid white;
+         		color: white;
+         		background-color: #77b5db;
+         		border-radius: 10px;
+         	}	
+		</style>
+    </head>
+
+    <body onkeydown="choice(event)">
+
+    	<div id="player1">
+    		<div class="info">
+    			<span>Player</span>
+    			<span></span>
+    			<span>Computer</span>
+    		</div>
+    		<div class="info2">
+    			<span>
+    				<i id="pfstar0" class="fas fa-star"></i>
+    				<i id="pfstar1" class="fas fa-star"></i>
+    				<i id="pfstar2" class="fas fa-star"></i>
+    				<i id="pfstar3" class="fas fa-star"></i>
+    				<i id="pfstar4" class="fas fa-star"></i>
+
+    				<i id="pstar0" class="far fa-star"></i>
+    				<i id="pstar1" class="far fa-star"></i>
+    				<i id="pstar2" class="far fa-star"></i>
+    				<i id="pstar3" class="far fa-star"></i>
+    				<i id="pstar4" class="far fa-star"></i>
+    			</span>
+    			<span></span>
+    			<span>
+    				<i id="cfstar0" class="fas fa-star"></i>
+    				<i id="cfstar1" class="fas fa-star"></i>
+    				<i id="cfstar2" class="fas fa-star"></i>
+    				<i id="cfstar3" class="fas fa-star"></i>
+    				<i id="cfstar4" class="fas fa-star"></i>
+
+    				<i id="cstar0" class="far fa-star"></i>
+    				<i id="cstar1" class="far fa-star"></i>
+    				<i id="cstar2" class="far fa-star"></i>
+    				<i id="cstar3" class="far fa-star"></i>
+    				<i id="cstar4" class="far fa-star"></i>
+    			</span>
+    		</div>
+    		<div class="moves">
+    			<div>
+    				<i id="pRock" style="transform: rotate(90deg);" class="fas fa-hand-rock"></i>
+    				<i id="pPaper" style="display: none; transform: rotate(90deg);" class="fas fa-hand-paper"></i>
+    				<i id="pScissor" style="display: none; transform: scaleX(-1);" class="fas fa-hand-scissors"></i>
+    			</div>
+    			<div style="font-size: 3vw; color: black;">
+    				<p id="round">Start</p>
+    				<p id="winner" style="font-size: 2vw;"></p>
+    			</div>
+    			<div>
+    				<i id="rock" style="transform: rotate(-90deg) scaleX(-1);" class="fas fa-hand-rock"></i>
+    				<i id="paper" style="display: none; transform: rotate(-90deg) scaleX(-1);" class="fas fa-hand-paper"></i>
+    				<i id="scissor" style="display:none;" class="fas fa-hand-scissors"></i>
+    			</div>
+    		</div>
+    		<div class="choose">
+    			<div>
+    				<span><i onclick="rock(), choose(), rounds(), winner(), stars()" style="transform: rotate(90deg);" class="far fa-hand-rock"></i><br>A</span>
+    				<span><i onclick="paper(), choose(), rounds(), winner(), stars()" style="transform: rotate(90deg);" class="far fa-hand-paper"></i><br>S</span>
+    				<span><i onclick="scissor(), choose(), rounds(), winner(), stars()" style="transform: scaleX(-1);" class="far fa-hand-scissors"></i><br>D</span>
+    			</div>
+    			<div></div>
+    			<div></div>
+    		</div>
+    	</div>
+
+		<script id="player1js">
+			var round = 0;
+			var playerScore = 0;
+			var computerScore = 0;
+
+			function choice(event) {
+				if(event.keyCode == 65) {
+					rock();
+					choose();
+					rounds();
+					winner();
+					stars();
+				}
+				else if(event.keyCode == 83) {
+					paper();
+					choose();
+					rounds();
+					winner();
+					stars();
+				}
+				else if(event.keyCode == 68) {
+					scissor();
+					choose();
+					rounds();
+					winner();
+					stars();
+				}
+			}
+
+			function rounds() {
+				round +=1;
+				document.getElementById('round').innerHTML = "Round " + round;
+			}
+
+			function rock() {
+				document.getElementById('pRock').style.display = "block";
+				document.getElementById('pPaper').style.display = "none";
+				document.getElementById('pScissor').style.display = "none";
+			}
+			function paper() {
+				document.getElementById('pRock').style.display = "none";
+				document.getElementById('pPaper').style.display = "block";
+				document.getElementById('pScissor').style.display = "none";
+			}
+			function scissor() {
+				document.getElementById('pRock').style.display = "none";
+				document.getElementById('pPaper').style.display = "none";
+				document.getElementById('pScissor').style.display = "block";
+			}
+			
+			function choose() {
+				let random = Math.floor(Math.random() * 3);
+
+				if (random === 0) {
+					document.getElementById('rock').style.display = "block";
+					document.getElementById('paper').style.display = "none";
+					document.getElementById('scissor').style.display = "none";
+				}
+				else if (random === 1) {
+
+					document.getElementById('paper').style.display = "block";
+					document.getElementById('rock').style.display = "none";
+					document.getElementById('scissor').style.display = "none";
+				}
+				else if(random === 2) {
+
+					document.getElementById('scissor').style.display = "block";
+					document.getElementById('paper').style.display = "none";
+					document.getElementById('rock').style.display = "none";
+				}
+			}
+
+			function winner() {
+				let pRock = document.getElementById('pRock');
+				let pPaper = document.getElementById('pPaper');
+				let pScissor = document.getElementById('pScissor');
+
+				let cRock = document.getElementById('rock');
+				let cPaper = document.getElementById('paper');
+				let cScissor = document.getElementById('scissor');
+
+				if( (pRock.style.display == "block" && cRock.style.display == "block") ||
+					(pPaper.style.display == "block" && cPaper.style.display == "block") ||
+					(pScissor.style.display == "block" && cScissor.style.display == "block") ) 
+				{
+					document.getElementById('winner').innerHTML = "No one wins this round";
+				}
+				else if( (pRock.style.display == "block" && cScissor.style.display == "block") ||
+					(pPaper.style.display == "block" && cRock.style.display == "block") ||
+					(pScissor.style.display == "block" && cPaper.style.display == "block") ) 
+				{
+					document.getElementById('winner').innerHTML = "Player wins this round";
+					playerScore++;
+
+					if(playerScore == 5) {
+						setTimeout(function() {
+							alert("Player wins");
+							document.location.reload();
+						}, 100);
+					}
+				}
+				else if( (pScissor.style.display == "block" && cRock.style.display == "block") ||
+					(pRock.style.display == "block" && cPaper.style.display == "block") ||
+					(pPaper.style.display == "block" && cScissor.style.display == "block") ) 
+				{
+					document.getElementById('winner').innerHTML = "Computer wins this round";
+					computerScore++;
+
+					if(computerScore == 5) {
+						setTimeout(function() {
+							alert("Computer wins");
+							document.location.reload();
+						}, 100);
+					}
+				}
+			}
+
+			function stars() {
+				for(let i = 0; i < playerScore; i++) {
+					document.getElementById('pfstar' + i).style.display = "inline";
+					document.getElementById('pstar' + i).style.display = "none";
+				}
+				for(let i = 0; i < computerScore; i++) {
+					document.getElementById('cfstar' + i).style.display = "inline";
+					document.getElementById('cstar' + i).style.display = "none";
+				}
+			}
+		</script>
+	</body>
+</html>

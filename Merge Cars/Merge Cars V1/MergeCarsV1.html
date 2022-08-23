@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <title>Merge Cars</title>
+        <meta charset="utf-8">
+        <link rel="icon" href="merge_cars.png" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+        <style>
+        	* {
+                box-sizing: border-box;
+                margin: 0;
+                font-family: 'Bungee Shade', cursive;
+            }
+            body {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #809c13;
+            }
+
+            #intro div:nth-child(1), #intro div:nth-child(2) {
+                position: absolute;
+                top: 30vh;
+                left: 25vw;
+                width: 20vw;
+                height: 30vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #ececa3;
+                font-size: 4vw;
+                font-weight: bold;
+                transform: skewX(20deg);
+                box-shadow: -1px 2px 1px #986B41,
+                -2px 4px 1px #986B41,
+                -4px 6px 1px #986B41,
+                -5px 8px 1px #986B41,
+                -6px 10px 1px #986B41,
+                -8px 12px 1px #986B41,
+                -9px 14px 1px #986B41,
+                -10px 16px 1px #986B41,
+                -12px 18px 1px #986B41;
+            }
+            #intro div:nth-child(2) {
+                left: 55vw;
+            }
+            #intro button {
+                position: absolute;
+                top: 75vh;
+                left: 40vw;
+                width: 25vw;
+                height: 10vh;
+                border: 2px solid black;
+                border-left: 15px solid black;
+                background-color: #D7BA89;
+                font-size: 2vw;
+                letter-spacing: 10px;
+                font-weight: bold;
+            }
+            #main {
+                height: 100vh;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+            }
+            #main #money {
+                width: 25vw;
+                border-radius: 200px;
+                padding: 1vh 2vw;
+                background-color: #555555;
+            }
+            #main #money i {
+                font-size: 3vw;
+                color: goldenrod;
+            }
+            #main #money span {
+                font-size: 3vw;
+                font-family: monospace;
+                padding-left: 1vw;
+                color: white;
+            }
+            #main #coinRate, #main #coinRate span {
+                height: 6vh;
+                font-family: monospace;
+                font-size: 2vw;
+                padding-top: 2vh;
+                font-weight: bold;
+            }
+            #main #cars{
+                width: 80vw;
+                height: 40vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 8vh;
+                align-content: center;
+                flex-flow: row wrap;
+            }
+            #main #cars div {
+                width: 10vw;
+                height: 12vh;
+                transform: skew(-55deg, 0deg) rotate(15deg);
+                margin: 2vw 2vw;
+                background-color: #ffffff;
+                box-shadow: 1px 1px 1px #cccccc,
+                3px 2px 1px #cccccc,
+                6px 3px 1px #cccccc,
+                8px 4px 1px #cccccc,
+                11px 4px 1px #cccccc,
+                13px 5px 1px #cccccc,
+                16px 6px 1px #cccccc,
+                18px 7px 1px #cccccc,
+                21px 8px 1px #cccccc;
+            }
+            #main #cars img {
+                display: inline;
+                position: absolute;
+                top: 29vh;
+                left: 16.5vw;
+                width: 10vw;
+                height: 10vw;
+            }
+            #main #cars img:nth-child(12) {
+                left: 30.5vw;
+            }
+            #main #cars img:nth-child(13) {
+                left: 44.5vw;
+            }
+            #main #cars img:nth-child(14) {
+                left: 58.5vw;
+            }
+            #main #cars img:nth-child(15) {
+                left: 72.5vw;
+            }
+            #main #cars img:nth-child(16) {
+                top: 49.5vh;
+                left: 16.5vw;
+            }
+            #main #cars img:nth-child(17) {
+                top: 49.5vh;
+                left: 30.5vw;
+            }
+            #main #cars img:nth-child(18) {
+                top: 49.5vh;
+                left: 44.5vw;
+            }
+            #main #cars img:nth-child(19) {
+                top: 49.5vh;
+                left: 58.5vw;
+            }
+            #main #cars img:nth-child(20) {
+                top: 49.5vh;
+                left: 72.5vw;
+            }
+            #main #buy {
+                width: 15vw;
+                height: 18vh;
+                margin: 5vh 0 -3vh 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+                background-color: #333333;
+                border-top: 4vh solid #809c13;
+            }
+            #main #buy img {
+                width: 6vw;
+                color: red;
+                margin-top: -4vh;
+            }
+            #main #buy span {
+                font-size: 2vw;
+                font-family: monospace;
+                color: white;
+                padding-bottom: 1vh;
+            }
+            #main #buy span i {
+                font-size: 2vw;
+                color: goldenrod;
+            }
+            #levelup {
+                position: absolute;
+                width: 90vw;
+                height: 90vh;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                background-color: rgba(20, 20, 20, 0.6);
+                border-radius: 30px;
+                z-index: 1;
+                transform: scale(0);
+                animation-name: anim1;
+                animation-duration: 1s;
+                animation-fill-mode: forwards;
+            }
+            @keyframes anim1 {
+                from {
+                    transform: scale(0);
+                }
+                to {
+                    transform: scale(1);
+                }
+            }
+
+            #levelup div {
+                width: 80vw;
+                height: 70vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+                background-color: rgba(20, 20, 20, 0.8);
+                border-radius: 30px;
+                color: white;
+            }
+            #levelup div h2 {
+                font-family: monospace;
+                font-size: 2vw;
+                margin: 2vw;
+            } 
+            #levelup div h2 span {
+                font-family: monospace;
+                font-size: 2vw;
+                font-weight: bold;
+            }
+            #levelup div button {
+                width: 20vw;
+                height: 6vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: transparent;
+                border: 3px solid white;
+                color: white;
+                font-size: 1.5vw;
+            }
+            #levelup div div {
+                width: 15vw;
+                height: 17vh;
+                transform: skew(-55deg, 0deg) rotate(15deg);
+                margin: 2vw 2vw;
+                background-color: #ffffff;
+                border-radius: 0;
+                box-shadow: 1px 1px 1px #cccccc,
+                3px 2px 1px #cccccc,
+                6px 3px 1px #cccccc,
+                8px 4px 1px #cccccc,
+                11px 4px 1px #cccccc,
+                13px 5px 1px #cccccc,
+                16px 6px 1px #cccccc,
+                18px 7px 1px #cccccc,
+                21px 8px 1px #cccccc;
+            }
+            #levelup div img {
+                position: fixed;
+                top: 22vh;
+                left: 37vw;
+                width: 15vw;
+                height: 15vw;
+            }
+            #finish {
+                width: 50vw;
+                height: 80vh;
+                text-align: center;
+                display: none;
+                justify-content: center;
+                align-items: center;
+                flex-flow: column nowrap;
+            }
+            #finish h1 {
+                font-size: 3vw;
+                color: white;
+            }
+            #finish button {
+                width: 30vw;
+                height: 8vh;
+                background-color: #222222;
+                color: white;
+                margin-top: 10vw;
+                font-size: 1.5vw;
+                border: 2px solid white;
+            }
+		</style>
+    </head>
+    <body>
+        <div id="intro">
+            <div>Merge</div>
+            <div>Cars</div>
+            <button onclick="play()">Play</button>
+        </div>
+        <div id="main">
+            <div id="money">
+                <i class="fas fa-coins"></i>
+                <span>0</span>
+            </div>
+            <div id="coinRate"><span>0</span>/sec</div>
+            <div id="cars">
+                <div></div> <div></div> <div></div> <div></div> <div></div> 
+                <div></div> <div></div> <div></div> <div></div> <div></div>
+
+                <img onclick="merge(0)" src="images/car1.png">
+                <img onclick="merge(1)" src="images/car1.png">
+                <img onclick="merge(2)" src="images/car1.png">
+                <img onclick="merge(3)" src="images/car1.png">
+                <img onclick="merge(4)" src="images/car1.png">
+                <img onclick="merge(5)" src="images/car1.png">
+                <img onclick="merge(6)" src="images/car1.png">
+                <img onclick="merge(7)" src="images/car1.png">
+                <img onclick="merge(8)" src="images/car1.png">
+                <img onclick="merge(9)" src="images/car1.png">
+            </div>
+            <div id="buy" onclick="buyCar()">
+                <img src="images/car1.png">
+                <span><i class="fas fa-coins"></i> <span id="price">0</span></span>
+            </div>
+            <div id="levelup">
+                <div>
+                    <h1>Level <span id="level">1</span> Car Unlocked</h1>
+                    <div></div>
+                    <img id="lvCar" src="images/car1.png">
+                    <h2>Earning: <span id="earn">0</span>/sec</h2>
+                    <button onclick="next()">Continue</button>
+                </div>
+            </div>
+        </div>
+        <div id="finish">
+            <h1>Congrats on merging all the cars through the final one</h1>
+            <button onclick="document.location.reload()">Play Again</button>
+        </div>
+	<script>
+        var arr = ["car1", "car2", "car3", "car4", "car5", "car6", "car7"];
+        var arr2 = [
+            0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0
+        ];
+        var coins = 2000;
+        var price = 500;
+        var cars = 0;
+
+        var first;
+        var second;
+        var checkArr = [];
+        var sum;
+
+        for(let k = 0; k < arr2.length; k++) {
+            document.getElementById('cars').getElementsByTagName('img')[k].style.display = "none";
+        }
+
+
+        setInterval(function() {
+            sum = 0;
+            for(let i = 0; i < arr2.length; i++) {
+                sum += Math.floor(10 * Math.pow(2, arr2[i]) + Math.pow(3, arr2[i]) - 11);
+            }
+            drawRate();
+            coins += sum;
+            drawCoins();
+        }, 1000);
+
+        function drawRate() {
+            document.getElementById('coinRate').getElementsByTagName('span')[0].innerHTML = sum;
+        }
+
+        function drawCoins() {
+            document.getElementById('money').getElementsByTagName('span')[0].innerHTML = Math.round(coins);
+        }
+
+        function drawPrice() {
+            document.getElementById('price').innerHTML = Math.round(price);
+        }
+
+        function drawCar() {
+            for(let i = 0; i < arr2.length; i++) {
+                if(document.getElementById('cars').getElementsByTagName('img')[i].style.display == "none") {
+                    document.getElementById('cars').getElementsByTagName('img')[i].src = "images/car1.png";
+                    document.getElementById('cars').getElementsByTagName('img')[i].style.display = "inline";
+                    arr2[i] = 1;
+                    cars++;
+                    break;
+                }
+            }
+        }
+
+        function buyCar() {
+            if(coins >= price && cars < arr2.length) {
+                coins -=price;
+                price *= 1.07;
+                drawCoins();
+                drawPrice();
+                drawCar();
+            }
+        }
+
+        function levelup(n) {
+            document.getElementById('levelup').style.display = "flex";
+            document.getElementById('level').innerHTML = n;
+            document.getElementById('lvCar').src = "images/car" + n + ".png";
+            document.getElementById('earn').innerHTML = Math.floor(10 * Math.pow(2, n) + Math.pow(3, n) - 11);
+        }
+        function next() {
+            document.getElementById('levelup').style.display = "none";
+            if(Math.max(...arr2) == 7) {
+                document.getElementById('main').style.display = "none";
+                document.getElementById('finish').style.display = "flex";
+            }
+        }
+
+        function merge(n) {
+            let div = document.getElementById('cars').getElementsByTagName('div');
+            let img = document.getElementById('cars').getElementsByTagName('img');
+
+            div[n].style.backgroundColor = "#aaaaaa";
+
+            checkArr.push(n);
+            first = checkArr[0];
+            second = checkArr[1];
+
+            if(checkArr.length == 2) {
+                var temp = Math.max(...arr2);
+
+                if(arr2[first] == arr2[second]) {
+                    arr2[first] = 0;
+                    arr2[second]++;
+                    if(arr2[second] > temp) {
+                        levelup(arr2[second]);
+                    }
+                    img[first].style.display = "none";
+                    img[second].src = "images/car" + (arr2[second]) + ".png";
+                    cars--;
+                }
+                div[first].style.backgroundColor = "#ffffff";
+                div[second].style.backgroundColor = "#ffffff";
+                checkArr = [];
+            }
+        }
+
+        function play() {
+            document.getElementById('intro').style.display = "none";
+            document.getElementById('main').style.display = "flex";
+            drawCoins();
+            drawPrice();
+        }
+	</script>
+</body>
+</html>
